@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        nav {
+            border: 1px solid blue;
+            display: flex;
+            justify-content: space-evenly;
+            background-color: blue;
+            margin-bottom: 10px;
+            color: white;
+            font-size: 21px;
+        }
+
+        a {
+            text-decoration: none;
+            color: white;
+        }
+
+        #container {
+            /* border: 1px solid red; */
+            height: auto;
+            width: 50%;
+            margin: 50px auto;
+            padding: 30px 0px 30px 0px;
+            box-shadow: #32326926 0px 2px 5px 0px, rgba(0, 0, 0, 0.05) 0px 1px 1px 0px;
+            font-size: larger;
+        }
+
+        #container>div {
+            /* border: 1px solid pink; */
+            width: 70%;
+            margin: auto;
+        }
+
+        input {
+            width: 90%;
+        }
+        #nav_2{
+            color: rgb(254, 155, 196);
+        }
+        span{
+            color:rgb(255, 4, 4);
+        }
+    </style>
+</head>
+
+<body>
+    <nav>
+        <a href="index.html">
+            <p>Home Page</p>
+        </a>
+        <a href="dashbord.html">
+            <p>Deshbord</p>
+        </a>
+    </nav>
+    <nav id="nav_2">
+        <p>Batch01-<span id="span1"></span> </p>
+        <p>Batch02-<span id="span2"></span> </p>
+        <p>Batch03-<span id="span3"></span> </p>
+        <p>Batch04-<span id="span4"></span> </p>
+    </nav>
+
+    <div id="container">
+        <div>
+            <form id="form">
+                <label for="name">Enter Name</label> <br>
+                <input type="text" id="name" autofocus required> <br> <br>
+
+                <!-- <label for="course">Course Name</label>  <br>
+                <input type="text" id="course">   <br> <br> -->
+
+                <select id="select">
+                    <option value="">--Select Course--</option>
+                    <option value="Frontend">Frontend</option>
+                    <option value="back">Backend</option>
+                    <option value="fsd">FSD</option>
+                </select> <br> <br>
+                <label for="unit">Unit</label> <br>
+                <input type="number" id="unit" required> <br> <br>
+
+                <label for="url">Image Url</label> <br>
+                <input type="url" id="url" required> <br> <br>
+
+                <select id="batch">
+                    <option value="">--Select Batch--</option>
+                    <option value="01">01</option>
+                    <option value="02">02</option>
+                    <option value="03">03</option>
+                    <option value="04">04</option>
+                </select> <br> <br>
+
+                <input type="submit" value="Submit">
+            </form>
+
+        </div>
+    </div>
+</body>
+
+</html>
+
+<script>
+    document.querySelector("#form").addEventListener("submit", displayData);
+
+    var studentData = JSON.parse(localStorage.getItem("stuData")) || [];
+
+    function displayData() {
+        event.preventDefault();
+
+        var studentObj = {
+            Name: form.name.value,
+            Course: form.select.value,
+            Unit: form.unit.value,
+            Image: form.url.value,
+            Batch: form.batch.value,
+        }
+
+        studentData.push(studentObj);
+        localStorage.setItem("stuData", JSON.stringify(studentData));
+    }
+    // window.location.href ="dashbord.html" ;
+    var count1 = 0; var count2 = 0; var count3 = 0; var count4 = 0;
+    countDisplay() ;
+    function countDisplay() {
+        let data = JSON.parse(localStorage.getItem("stuData"));
+
+        // Count Total Student
+        let total_stu = data.length;
+        console.log(total_stu);
+
+        // count batch01
+        for (var i = 0; i < data.length; i++) {
+            if (data[i].Batch == "01") {
+                count1++;
+            }
+            else if (data[i].Batch == "02") {
+                count2++;
+            }
+            if (data[i].Batch == "03") {
+                count3++;
+            }
+            if (data[i].Batch == "04") {
+                count4++;
+            }
+        }
+
+        document.querySelector("#span1").innerHTML = count1 || "";
+        document.querySelector("#span2").innerHTML = count2 || "";
+        document.querySelector("#span3").innerHTML = count3 || "";
+        document.querySelector("#span4").innerHTML = count4 || "";
+        
+    }
+
+</script>

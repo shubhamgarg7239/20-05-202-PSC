@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deshbord</title>
+    <style>
+ nav {
+            border: 1px solid blue;
+            display: flex;
+            justify-content: space-evenly;
+            background-color: blue;
+            margin-bottom: 10px;
+            color: white;
+            font-size: 21px;
+        }
+
+        a {
+            text-decoration: none;
+            color: white;
+        }
+        #table{
+            /* border: 1px solid blue; */
+            width: 800px;
+            margin:40px auto;
+            box-shadow: rgba(3, 102, 214, 0.3) 0px 0px 0px 3px;
+        }
+        #table>thead{
+            background-color: blue;
+            height:30px;
+            text-align: center;
+        }
+        tbody{
+            text-align: center;
+        }
+        #nav_2{
+            color: rgb(254, 155, 196);
+        }
+        span{
+            color:rgb(255, 4, 4);
+        }
+    </style>
+</head>
+
+<body>
+    <nav>
+         <a href="index.html"> <p>Home Page</p></a> 
+         <a href="dashbord.html"> <p>Deshbord</p> </a>
+    </nav>
+    <nav id="nav_2">
+        <p>Batch01 <span id="span1"></span> </p>
+        <p>Batch02 <span id="span2"></span> </p>
+        <p>Batch03 <span id="span3"></span> </p>
+        <p>Batch04 <span id="span4"></span> </p>
+    </nav>
+    <table id="table" border=50>
+        <thead>
+            <td>Image</td>
+            <td>Name</td>
+            <td>Course</td>
+            <td>Unit</td>
+            <td>Batch</td>
+            <td>Delete</td>
+        </thead>
+        <tbody>
+            <!-- Append Your data here -->
+        </tbody>
+    </table>
+</body>
+
+</html>
+
+<script>
+    let studentData = JSON.parse(localStorage.getItem("stuData"));
+    let trashArr = [] ;
+    displayData();
+
+    function displayData() {
+        studentData.forEach(function (ele, i) {
+            let tr = document.createElement("tr");
+            tr.addEventListener("click",function(){
+                let span = document.querySelector("span")
+                span.style.color ="red"
+                span.innerText =ele.Batch ;
+            })
+
+            let td1 = document.createElement("td") ;
+            let img =document.createElement("img") ;
+            img.style.height ="60px"
+            img.style.width = "100px"
+            img.src= ele.Image ;
+
+            let td2 = document.createElement("td") ;
+            td2.innerText = ele.Name ;
+
+            let td3 = document.createElement("td") ;
+            td3.innerText = ele.Course ;
+
+            let td4 = document.createElement("td") ;
+            td4.innerText =ele.Unit ;
+
+            let td5 = document.createElement("td") ;
+            td5.innerText = ele.Batch;
+
+            let td6 = document.createElement("td") ;
+            td6.innerText = "Delete" ;
+            td6.style.color ="red" ;
+            td6.addEventListener("click", function(){
+                deleteFunction(ele,i) ;
+            })
+
+        td1.append(img) ;
+        tr.append(td1,td2,td3,td4,td5,td6) ;
+        document.querySelector("tbody").append(tr) ;
+    })
+    function deleteFunction(ele,i){
+        // console.log(ele,i)
+        trashArr.push(ele);
+        localStorage.setItem("trash",JSON.stringify(trashArr))
+        studentData.splice(i,1) ;
+        localStorage.setItem("stuData",JSON.stringify(studentData)) ;
+        window.location.reload() ;
+    }
+
+    // COUNTING PART
+    var count1 = 0; var count2 = 0; var count3 = 0; var count4 = 0;
+    countDisplay() ;
+    function countDisplay() {
+        let data = JSON.parse(localStorage.getItem("stuData"));
+
+        // Count Total Student
+        let total_stu = data.length;
+        console.log(total_stu);
+
+        // count batch01
+        for (var i = 0; i < data.length; i++) {
+            if (data[i].Batch == "01") {
+                count1++;
+            }
+            else if (data[i].Batch == "02") {
+                count2++;
+            }
+            if (data[i].Batch == "03") {
+                count3++;
+            }
+            if (data[i].Batch == "04") {
+                count4++;
+            }
+        }
+
+        document.querySelector("#span1").innerHTML = count1 || "";
+        document.querySelector("#span2").innerHTML = count2 || "";
+        document.querySelector("#span3").innerHTML = count3 || "";
+        document.querySelector("#span4").innerHTML = count4 || "";
+        
+    }
+}
+</script>
